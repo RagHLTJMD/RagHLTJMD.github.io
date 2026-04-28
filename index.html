@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyLabour – Contraction Tracker</title>
+  <meta name="description" content="NHS-guided contraction tracker. No cloud. No account. Works on Wear OS and with your partner. Your data never leaves your device." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #B97A78;
+      --pink-soft: #CB9190;
+      --pink-glow: rgba(185, 122, 120, 0.15);
+      --bg: #FCF8ED;
+      --bg-card: #F2EDE0;
+      --bg-card-2: #E8E1D4;
+      --text: #2C1810;
+      --text-muted: #7A5C58;
+      --text-dim: #A08880;
+      --border: rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(252,248,237,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--pink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--pink);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; color: #fff !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(185,122,120,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge span {
+      width: 6px; height: 6px;
+      background: var(--pink);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--pink);
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--pink);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      padding: 16px 28px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: rgba(0,0,0,0.12); color: var(--text); }
+
+    .hero-price {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    /* PHONE MOCKUP */
+    .mockup-wrap {
+      margin-top: 72px;
+      position: relative;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+
+    .mockup-phone {
+      width: 240px;
+      background: var(--bg-card);
+      border-radius: 40px;
+      border: 2px solid var(--border);
+      padding: 20px 16px;
+      box-shadow: 0 40px 100px rgba(44,24,16,0.12), 0 0 0 1px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .mockup-phone::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 80px; height: 28px;
+      background: var(--bg);
+      border-radius: 0 0 20px 20px;
+      z-index: 2;
+    }
+
+    .mockup-title {
+      font-family: 'DM Serif Display', serif;
+      color: var(--pink);
+      text-align: center;
+      font-size: 1.1rem;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    .mockup-btn {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #3A8C47;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 40px rgba(58, 140, 71, 0.3);
+    }
+
+    .mockup-btn-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .mockup-btn-sub {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+
+    .mockup-stats {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .mockup-stat {
+      flex: 1;
+      background: var(--bg-card-2);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .mockup-stat-val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mockup-stat-label {
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .mockup-glow {
+      position: absolute;
+      bottom: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(185,122,120,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* TRUST STRIP */
+    .trust-strip {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .trust-item svg { color: var(--pink); flex-shrink: 0; }
+
+    /* FEATURES */
+    section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      max-width: 560px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(185,122,120,0.3);
+      transform: translateY(-2px);
+    }
+
+    .feature-card.featured {
+      border-color: rgba(185,122,120,0.25);
+      background: linear-gradient(135deg, var(--bg-card), rgba(185,122,120,0.05));
+    }
+
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: var(--pink-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* PRIVACY SECTION */
+    .privacy-section {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 100px 24px;
+    }
+
+    .privacy-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .privacy-list {
+      list-style: none;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .privacy-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .privacy-check {
+      width: 22px; height: 22px;
+      background: var(--pink-glow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--pink);
+      font-size: 0.7rem;
+    }
+
+    .privacy-visual {
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .privacy-visual-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .privacy-visual h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .privacy-visual p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .privacy-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 0.775rem;
+      color: var(--text-muted);
+    }
+
+    /* NHS SECTION */
+    .nhs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+    }
+
+    .rule-badge {
+      display: inline-block;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .rule-card h4 {
+      font-size: 0.925rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .rule-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .rule-indicator {
+      position: absolute;
+      top: 28px; right: 28px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .rule-green { background: #4CAF50; box-shadow: 0 0 8px rgba(76,175,80,0.5); }
+    .rule-amber { background: #FFA726; box-shadow: 0 0 8px rgba(255,167,38,0.5); }
+    .rule-red { background: #EF5350; box-shadow: 0 0 8px rgba(239,83,80,0.5); }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 120px 24px;
+    }
+
+    .cta-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-section p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .disclaimer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.65;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-card);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+      max-width: 1100px;
+      margin: 0 auto;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      color: var(--pink);
+      font-size: 1.1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-muted); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* SHOWCASE ROWS */
+    .showcase-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+
+    .showcase-row.reverse { direction: rtl; }
+    .showcase-row.reverse > * { direction: ltr; }
+
+    .showcase-visual {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(185,122,120,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .showcase-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--pink);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* TWO PHONES */
+    .two-phones {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mini-phone {
+      width: 88px;
+      background: var(--bg-card-2);
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      padding: 10px 8px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 16px 40px rgba(44,24,16,0.08);
+      position: relative;
+    }
+
+    .mini-phone-notch {
+      width: 28px; height: 8px;
+      background: var(--bg);
+      border-radius: 0 0 8px 8px;
+      margin-bottom: 2px;
+    }
+
+    .mini-phone-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.7rem;
+    }
+
+    .mini-phone-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mini-phone-btn.active {
+      background: #c0392b;
+      box-shadow: 0 0 16px rgba(192,57,43,0.4);
+    }
+
+    .mini-phone-btn.syncing {
+      background: #3A8C47;
+      box-shadow: 0 0 16px rgba(58,140,71,0.35);
+    }
+
+    .mini-phone-label {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .sync-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sync-pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: travelRight 1.6s infinite ease-in-out;
+    }
+
+    .sync-pulse.delay { animation-delay: 0.8s; }
+
+    @keyframes travelRight {
+      0% { opacity: 0; transform: translateX(-16px); }
+      40% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(16px); }
+    }
+
+    /* WATCH */
+    .watch-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .watch-band-top, .watch-band-bottom {
+      width: 52px;
+      height: 36px;
+      background: #E4DDD0;
+      border: 1.5px solid rgba(0,0,0,0.08);
+    }
+
+    .watch-band-top {
+      border-radius: 6px 6px 0 0;
+      border-bottom: none;
+    }
+
+    .watch-band-bottom {
+      border-radius: 0 0 6px 6px;
+      border-top: none;
+    }
+
+    .watch-body {
+      width: 120px;
+      height: 130px;
+      background: var(--bg-card-2);
+      border-radius: 30px;
+      border: 2px solid rgba(0,0,0,0.10);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 20px 50px rgba(44,24,16,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .watch-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 8px;
+    }
+
+    .watch-app-title {
+      font-family: 'DM Serif Display', serif;
+      color: var(--pink);
+      font-size: 0.7rem;
+    }
+
+    .watch-big-btn {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #3A8C47;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(58,140,71,0.4);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .watch-big-btn:hover { transform: scale(0.95); }
+
+    .watch-btn-text {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    .watch-btn-sub {
+      font-size: 0.42rem;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.06em;
+    }
+
+    .watch-status {
+      font-size: 0.48rem;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* SHOWCASE TEXT */
+    .showcase-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      margin-top: 12px;
+    }
+
+    .showcase-body {
+      font-size: 0.975rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .showcase-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .showcase-list li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .check {
+      color: var(--pink);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .showcase-row, .showcase-row.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 32px;
+      }
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .privacy-inner { grid-template-columns: 1fr; gap: 40px; }
+      .nhs-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">MyLabour</a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#guidance">NHS Guidance</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="mailto:support@mylabour.app" class="nav-cta">Support</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <span></span>
+      NHS-aligned · No cloud · No account
+    </div>
+
+    <h1>Track every<br/><em>contraction.</em><br/>Together.</h1>
+
+    <p class="hero-sub">
+      Sync with your partner and Wear OS watch in real-time, over Bluetooth and local Wi-Fi. Your data stays on your device.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.37.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 4zm-3.22-17.6c.06 2.06-1.53 3.8-3.5 3.96-.27-1.96 1.48-3.86 3.5-3.96z"/></svg>
+        Download on Android
+      </a>
+      <a href="#features" class="btn-secondary">See how it works</a>
+    </div>
+
+    <p class="hero-price">One-time purchase · No subscription</p>
+
+    <!-- Phone mockup -->
+    <div class="mockup-wrap">
+      <div class="mockup-phone">
+        <div class="mockup-glow"></div>
+        <div class="mockup-title">MyLabour</div>
+        <div class="mockup-btn">
+          <div class="mockup-btn-label">START</div>
+          <div class="mockup-btn-sub">NEW CONTRACTION</div>
+        </div>
+        <div class="mockup-stats">
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">4m 32s</div>
+            <div class="mockup-stat-label">Since Last</div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">58s</div>
+            <div class="mockup-stat-label">Avg Duration</div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">12</div>
+            <div class="mockup-stat-label">Total</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div class="trust-strip">
+    <div class="trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      No account required
+    </div>
+    <div class="trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Data stays on device
+    </div>
+    <div class="trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l5 5 5-5 5 5 5-5"/><path d="M1 12l5 5 5-5 5 5 5-5"/></svg>
+      Works offline
+    </div>
+    <div class="trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      NHS-aligned guidance
+    </div>
+    <div class="trust-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      Wear OS support
+    </div>
+  </div>
+
+  <!-- HERO FEATURES: WEAR OS + PARTNER -->
+  <section id="features" style="padding: 100px 24px; max-width: 1100px; margin: 0 auto;">
+    <div class="reveal" style="text-align:center; margin-bottom: 64px;">
+      <div class="section-label">Built for the moment</div>
+      <h2 class="section-title" style="max-width: 100%; font-size: clamp(2rem, 5vw, 3.2rem);">You and your partner,<br/><em style="font-style:italic; color: var(--pink);">in sync.</em></h2>
+    </div>
+
+    <!-- PARTNER SYNC SHOWCASE -->
+    <div class="showcase-row reveal">
+      <div class="showcase-visual partner-visual">
+        <!-- Two phones side by side -->
+        <div class="two-phones">
+          <div class="mini-phone left-phone">
+            <div class="mini-phone-notch"></div>
+            <div class="mini-phone-title" style="color: var(--pink);">MyLabour</div>
+            <div class="mini-phone-btn active">
+              <div style="font-size:0.55rem; font-weight:700; color:#fff;">STOP</div>
+            </div>
+            <div class="mini-phone-label">In labour</div>
+          </div>
+          <div class="sync-line">
+            <div class="sync-pulse"></div>
+            <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+              <path d="M0 8 L48 8" stroke="var(--pink)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            </svg>
+            <div class="sync-pulse delay"></div>
+          </div>
+          <div class="mini-phone right-phone">
+            <div class="mini-phone-notch"></div>
+            <div class="mini-phone-title" style="color: var(--pink);">MyLabour</div>
+            <div class="mini-phone-btn syncing">
+              <div style="font-size:0.45rem; font-weight:600; color:rgba(255,255,255,0.8); text-align:center; line-height:1.3;">SYNCED<br/>58s</div>
+            </div>
+            <div class="mini-phone-label">Partner</div>
+          </div>
+        </div>
+        <div class="showcase-badge">
+          <div class="badge-dot"></div>
+          No internet required
+        </div>
+      </div>
+      <div class="showcase-text">
+        <div class="section-label">Partner Sync</div>
+        <h3 class="showcase-heading">Both of you, tracking together.</h3>
+        <p class="showcase-body">Connect your partner's phone over Bluetooth and local Wi-Fi. No account, no internet, no servers. Two phones talking directly to each other, with nothing in between.</p>
+        <ul class="showcase-list">
+          <li><span class="check">✓</span> Contractions started on either device appear on both instantly</li>
+          <li><span class="check">✓</span> Full history syncs when partner joins mid-session</li>
+          <li><span class="check">✓</span> Works in hospitals with no mobile signal</li>
+          <li><span class="check">✓</span> Data never touches a server</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WEAR OS SHOWCASE -->
+    <div class="showcase-row reverse reveal">
+      <div class="showcase-visual watch-visual">
+        <div class="watch-wrap">
+          <div class="watch-body">
+            <div class="watch-screen">
+              <div class="watch-app-title">MyLabour</div>
+              <div class="watch-big-btn">
+                <div class="watch-btn-text">TAP</div>
+                <div class="watch-btn-sub">TO START</div>
+              </div>
+              <div class="watch-status">No contractions yet</div>
+            </div>
+          </div>
+          <div class="watch-band-top"></div>
+          <div class="watch-band-bottom"></div>
+        </div>
+        <div class="showcase-badge" style="bottom: 24px; right: 24px;">
+          <div class="badge-dot"></div>
+          One tap tracking
+        </div>
+      </div>
+      <div class="showcase-text">
+        <div class="section-label">Wear OS</div>
+        <h3 class="showcase-heading">One tap on your wrist, nothing else.</h3>
+        <p class="showcase-body">When you're mid-contraction, the last thing you need is a phone screen. A single tap on your Wear OS watch starts and stops the timer, and everything syncs to both phones straight away.</p>
+        <ul class="showcase-list">
+          <li><span class="check">✓</span> Single tap to start and stop contractions</li>
+          <li><span class="check">✓</span> Syncs instantly to phone and partner device</li>
+          <li><span class="check">✓</span> History shows which device recorded each entry</li>
+          <li><span class="check">✓</span> Haptic feedback confirms every tap</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REMAINING FEATURES -->
+  <section style="padding: 0 24px 100px; max-width: 1100px; margin: 0 auto;">
+    <div class="reveal" style="margin-bottom: 40px;">
+      <div class="section-label">Also included</div>
+      <h2 class="section-title">The rest of what you'll both need.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">📊</div>
+        <h3>Pattern Detection</h3>
+        <p>Monitors and identifies 5-1-1, 4-1-1, and 3-1-1 contraction patterns, aligned with NHS guidelines. For informational purposes only. Always follow your midwife's advice.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📋</div>
+        <h3>Full History Log</h3>
+        <p>Every contraction logged with start time, duration, and which device recorded it: Watch, Phone, or Partner.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔔</div>
+        <h3>Smart Alerts</h3>
+        <p>Colour-coded indicators and haptic feedback when patterns are reached. Background notifications so you never miss a milestone.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🏥</div>
+        <h3>Works in Hospitals</h3>
+        <p>Fully offline. P2P sync requires no internet. Designed for the reality of hospital Wi-Fi at the worst possible moment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <div class="privacy-section" id="privacy">
+    <div class="privacy-inner">
+      <div class="reveal">
+        <div class="section-label">Privacy</div>
+        <h2 class="section-title">Your health data belongs to you.</h2>
+        <ul class="privacy-list">
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>No account, login, or sign-up of any kind</span>
+          </li>
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>All data stored locally on your device only</span>
+          </li>
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>No telemetry, analytics, or crash reporting</span>
+          </li>
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>Partner sync is peer-to-peer, so data never touches a server</span>
+          </li>
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>No ads. No data sold. No third-party SDKs watching you</span>
+          </li>
+          <li>
+            <div class="privacy-check">✓</div>
+            <span>Uninstalling the app deletes everything</span>
+          </li>
+        </ul>
+      </div>
+      <div class="privacy-visual reveal">
+        <div class="privacy-visual-icon">🔒</div>
+        <h3>Nothing leaves your phone</h3>
+        <p>Pregnancy and labour data is among the most sensitive health information there is. MyLabour was built so we have no way to see it, because we never receive it in the first place.</p>
+        <div class="privacy-tags">
+          <span class="tag">Local-first</span>
+          <span class="tag">Offline-ready</span>
+          <span class="tag">P2P sync only</span>
+          <span class="tag">No cloud</span>
+          <span class="tag">No telemetry</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NHS GUIDANCE -->
+  <section id="guidance">
+    <div class="reveal">
+      <div class="section-label">NHS Guidance</div>
+      <h2 class="section-title">Aligned with the patterns your midwife looks for.</h2>
+    </div>
+
+    <div class="nhs-grid reveal">
+      <div class="rule-card">
+        <div class="rule-indicator rule-green"></div>
+        <div class="rule-badge">5-1-1</div>
+        <h4>5-1-1 Contraction Pattern</h4>
+        <p>Contractions every 5 minutes, lasting around 1 minute, for at least 45 minutes. Based on NHS guidelines, this is a good time to call your midwife or maternity unit.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-indicator rule-amber"></div>
+        <div class="rule-badge">4-1-1</div>
+        <h4>Contraction Frequency Increasing</h4>
+        <p>Contractions are becoming more frequent. Based on general guidelines, if you haven't already, contact your midwife or maternity unit and make sure your hospital bag is ready.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-indicator rule-red"></div>
+        <div class="rule-badge">3-1-1</div>
+        <h4>High Frequency Contraction Pattern</h4>
+        <p>Contractions are very frequent. Based on general NHS guidelines, this pattern is associated with active labour. Contact your midwife or maternity unit if you haven't already.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 32px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; font-size: 0.875rem; color: var(--text-muted); line-height: 1.7;">
+      <strong style="color: var(--text);">Important:</strong> MyLabour is a tracking and logging tool for informational purposes only. It is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. Always follow the specific advice of your midwife, doctor, or healthcare provider. In an emergency, call 999.
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <h2>Ready when<br/><em style="font-family: 'DM Serif Display', serif; color: var(--pink); font-style: italic;">you are.</em></h2>
+    <p>One-time purchase. No subscription, no sign-up, no fuss.</p>
+    <a href="#" class="btn-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+      Get MyLabour on Android
+    </a>
+    <div class="disclaimer">
+      MyLabour is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. Always consult your midwife or healthcare provider. In an emergency, call 999.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">MyLabour</div>
+    <ul class="footer-links">
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="mailto:support@mylabour.app">Support</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 MyLabour. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

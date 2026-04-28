@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – MyLabour</title>
+  <meta name="description" content="MyLabour privacy policy. We collect nothing. Your data never leaves your device." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #B97A78;
+      --bg: #FCF8ED;
+      --bg-card: #F2EDE0;
+      --bg-card-2: #E8E1D4;
+      --text: #2C1810;
+      --text-muted: #7A5C58;
+      --text-dim: #A08880;
+      --border: rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(252,248,237,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--pink);
+      text-decoration: none;
+    }
+
+    .nav-back {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    .page-header {
+      padding: 160px 24px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(185,122,120,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-header .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .page-header .updated {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* SUMMARY BOX */
+    .summary-box {
+      max-width: 700px;
+      margin: 60px auto 0;
+      background: var(--bg-card);
+      border: 1px solid rgba(185,122,120,0.2);
+      border-radius: 20px;
+      padding: 32px;
+    }
+
+    .summary-box h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: var(--pink);
+    }
+
+    .summary-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.925rem;
+      color: var(--text-muted);
+    }
+
+    .summary-dot {
+      width: 20px; height: 20px;
+      background: rgba(185,122,120,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--pink);
+      font-size: 0.65rem;
+      margin-top: 2px;
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    .policy-section {
+      margin-bottom: 56px;
+    }
+
+    .policy-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .policy-section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .policy-section p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .policy-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .policy-section ul li {
+      font-size: 0.925rem;
+      color: var(--text-muted);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .policy-section ul li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--text-dim);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .highlight-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .highlight-box strong { color: var(--text); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 0 auto;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      color: var(--pink);
+      font-size: 1.1rem;
+    }
+
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
+
+    a { color: var(--pink); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">MyLabour</a>
+    <a href="/" class="nav-back">← Back to home</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="label">Legal</div>
+    <h1>Privacy Policy</h1>
+    <div class="updated">Last updated: April 2025</div>
+
+    <div class="summary-box">
+      <h2>The short version</h2>
+      <div class="summary-items">
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>We collect absolutely no personal data, health data, or usage data.</span>
+        </div>
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>Everything you record stays on your device. We have no access to it.</span>
+        </div>
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>Partner sync uses direct peer-to-peer connections. No servers involved.</span>
+        </div>
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>There is no account, login, or registration of any kind.</span>
+        </div>
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>We have no third-party analytics, advertising SDKs, or crash reporters.</span>
+        </div>
+        <div class="summary-item">
+          <div class="summary-dot">✓</div>
+          <span>Uninstalling the app permanently deletes all data.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="policy-section">
+      <h2>1. Who we are</h2>
+      <p>MyLabour is an Android application developed and published as an independent app. If you have questions about this policy, you can contact us at <a href="mailto:support@mylabour.app">support@mylabour.app</a>.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>2. What data we collect</h2>
+      <p><strong style="color: var(--text);">None.</strong></p>
+      <p>MyLabour does not collect, transmit, store remotely, or process any personal data. This includes but is not limited to:</p>
+      <ul>
+        <li>Health data or contraction records</li>
+        <li>Device identifiers or advertising IDs</li>
+        <li>Location data</li>
+        <li>Usage analytics or app behaviour</li>
+        <li>Crash reports or diagnostic data</li>
+        <li>Names, email addresses, or contact information</li>
+      </ul>
+      <p>We have no mechanism to collect data and no infrastructure to receive it.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>3. Where your data is stored</h2>
+      <p>All contraction data recorded in MyLabour is stored exclusively in a local database on your device (Android Room database). This data:</p>
+      <ul>
+        <li>Never leaves your device unless you explicitly export it using the in-app export function</li>
+        <li>Is not backed up to any cloud service by the app itself</li>
+        <li>Is permanently deleted when you uninstall the app or use the "Clear All" function</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Note on Android backups:</strong> If you have Android's built-in device backup enabled (Google One Backup), your device may back up app data to your Google account as part of your device backup. This is a device-level setting outside our control. You can disable app backup for MyLabour in your Android settings if you prefer.
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>4. Partner sync and Wear OS</h2>
+      <p>MyLabour's shared tracking feature uses Google Nearby Connections to create a direct peer-to-peer connection between devices via Bluetooth and local Wi-Fi.</p>
+      <ul>
+        <li>No contraction data passes through any server or third-party service during sync</li>
+        <li>The connection is local only, so both devices must be physically nearby</li>
+        <li>No data is retained by the Nearby Connections API after the session</li>
+        <li>Wear OS data sync works through the standard Android Wearable Data Layer, which operates locally between your phone and watch</li>
+      </ul>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>5. Permissions</h2>
+      <p>MyLabour requests the following Android permissions, used solely for the features described:</p>
+      <ul>
+        <li><strong style="color: var(--text);">Bluetooth & Nearby Wi-Fi:</strong> Required for peer-to-peer partner sync. Not used for any other purpose.</li>
+        <li><strong style="color: var(--text);">Notifications:</strong> Required to send pattern detection alerts when the app is in the background.</li>
+        <li><strong style="color: var(--text);">Wake lock:</strong> Keeps the app running accurately during active tracking so contractions are not missed.</li>
+      </ul>
+      <p>We do not request access to your contacts, camera, microphone, location, or any other sensitive permissions.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>6. Third parties</h2>
+      <p>MyLabour does not integrate any third-party analytics, advertising, or data-sharing services. We do not use:</p>
+      <ul>
+        <li>Google Analytics or Firebase Analytics</li>
+        <li>Crashlytics or any crash reporting service</li>
+        <li>Facebook SDK or any social SDKs</li>
+        <li>Any advertising networks</li>
+      </ul>
+      <p>The app is distributed via Google Play. Google's own terms apply to the Play Store platform itself, but MyLabour does not pass any user data to Google beyond what is standard for any Android app installation.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>7. Children</h2>
+      <p>MyLabour is intended for use by adults. It is not directed at children under 13. We do not knowingly collect any information from children.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>8. Medical disclaimer</h2>
+      <div class="highlight-box">
+        <strong>MyLabour is not a medical device</strong> and does not diagnose, treat, cure, or prevent any medical condition. It is a tracking and logging tool for informational purposes only. The contraction patterns detected (5-1-1, 4-1-1, 3-1-1) are based on general NHS and healthcare guidelines, but labour is unique to every individual. Always follow the specific advice of your midwife, doctor, or healthcare provider. If you experience an emergency, call 999 immediately.
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>9. Changes to this policy</h2>
+      <p>If we make material changes to this privacy policy, we will update this page and revise the "last updated" date. Given that we collect no data, any changes are likely to be minor clarifications.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="policy-section">
+      <h2>10. Contact</h2>
+      <p>If you have any questions about this privacy policy or how the app handles data, please contact us at <a href="mailto:support@mylabour.app">support@mylabour.app</a>.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">MyLabour</div>
+    <div class="footer-copy">© 2025 MyLabour · <a href="/" style="color: var(--text-dim);">Home</a></div>
+  </footer>
+
+</body>
+</html>
